@@ -7,7 +7,8 @@ export const createStudent=async(req,res)=>{
 }
 
 export const findStudent=async(req,res)=>{
-    const student=await Student.find({name:{$in:["Amit","chirag"]}});
+    // const student=await Student.find({name:{$in:["Amit","chirag"]}});
+    const student=await Student.find().select('name createdAt')
     res.send(student)
 }
 
@@ -21,4 +22,10 @@ export const deleteStudent=async(req,res)=>{
     // const{name}=req.body
    await Student.deleteMany({isEnrolled:false})
    res.status(200).send("deleted user successfully")
+}
+
+export const filterByAge=async(req,res)=>{
+    let student=await Student.find();
+    let filteredAge= student.filter((cur)=>cur.age<18);
+    res.send(filteredAge)
 }

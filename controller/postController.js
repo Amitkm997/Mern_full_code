@@ -24,10 +24,24 @@ export const getPosts=async (req,res) => {
     //     __v: 0
     //   }
     let posts=await Post.find({user:user._id}).sort({createdAt:-1})
-    .skip(skip).limit(limit)
+    .skip(skip).limit(limit).sort({createdAt:1})
     
     res.status(200).send({message:"post fetched successfully",posts:posts})
 }
 
+export const deletePost=async(req,res)=>{
+    let postId=req.params.postId;
+    await Post.findByIdAndDelete(postId);
+    res.status(200).send({message:"Post deleted successfully"})
+}
+
+export const getAllPost=async(req,res)=>{
+    // let allPosts=await Post.find({
+    //     createdAt:{$lte:new Date('2025-07-23')}
+    // })
+    // console.log(new Date().toLocaleTimeString())
+    let allPosts=await Post.find({title:{$exists:true}}).select('title content')
+    res.send(allPosts)
+}
 
 
