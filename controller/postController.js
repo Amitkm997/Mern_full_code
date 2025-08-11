@@ -2,11 +2,13 @@ import User from "../models/userModel.js"
 import Post from "../models/PostModel.js"
 
 export const createPost=async(req,res)=>{
-     const{email,title,content}=req.body;
-     const user=await User.findOne({email})
-     if(!user) return res.status(404).send({message:"user not found"});
-     const post=await Post.create({title,content,user:user._id});  
+     try{
+        const{title,content}=req.body
+        const post=await Post.create({title,content,user:req.user.userId});  
      res.status(201).send({message:"post created successfully",post:post})
+     }catch(err){
+        res.status(500).send({message:"Internal server error",error:err.message})
+     }    
 }
 
 export const getPosts=async (req,res) => {

@@ -56,5 +56,4 @@ export const showNoOfLikes = async (req, res) => {
     } catch (err) {
         console.log(err)
     }
-
 }

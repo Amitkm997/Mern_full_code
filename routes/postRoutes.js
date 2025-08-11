@@ -3,10 +3,10 @@ import express from "express";
 import { createPost, getPosts,deletePost,getAllPost } from "../controller/postController.js";
 import { liked,totalLikedByUser,totalUserLikePost ,showNoOfLikes} from "../controller/likeControllser.js";
 import { getJulyPost, postPerUser,totalLikedByUsers ,avgLikes,simplePost,postsWithAuthors} from "../controller/advanceController.js";
-
+import {authencation} from '../middleware/auth.js'
 const router=express.Router();
 
-router.post('/create',createPost)
+router.post('/create',authencation,createPost)
 router.get('/get/:page',getPosts)
 router.get('/allPost',getAllPost)
 
