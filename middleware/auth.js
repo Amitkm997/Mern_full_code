@@ -10,7 +10,6 @@ export const authentication = async (req, res, next) => {
         // console.log(decoded)
         req.user=decoded
         next()
-
     } catch (err) {
          res.status(500).send({message:"Internal server error",error:err.message})
     }
