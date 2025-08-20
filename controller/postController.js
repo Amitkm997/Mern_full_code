@@ -2,6 +2,7 @@ import User from "../models/userModel.js"
 import Post from "../models/PostModel.js"
 
 export const createPost = async (req, res) => {
+    console.log(req.user)
     try {
         const { title, content } = req.body
         const post = await Post.create({ title, content, user: req.user.userId });
@@ -34,6 +35,18 @@ export const deletePost = async (req, res) => {
     }
 }
 
+export const updatePost=async(req,res)=>{
+    let postId=req.params.postId;
+    const{content,title}=req.body;
+    // let post=await Post.findById(postId);
+    // if(!post) return req.status(404).send({message:"post not found"})
+    // post.title=title;
+    // post.content=content;
+    // post.save()
+    let post=await Post.findByIdAndUpdate(postId,{content,title},{new:true})
+    res.status(200).send({message:"post updated successfully",post:post})    
+}
+
 export const getAllPost = async (req, res) => {
     // let allPosts=await Post.find({
     //     createdAt:{$lte:new Date('2025-07-23')}
@@ -45,7 +58,6 @@ export const getAllPost = async (req, res) => {
     } catch (err) {
         res.status(500).send({ message: "Internal server error", error: err.message })
     }
-
 }
 
 
