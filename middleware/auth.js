@@ -2,13 +2,20 @@ import jwt from 'jsonwebtoken'
 import Post from '../models/PostModel.js';
 export const authentication = async (req, res, next) => {
     try {
-        const token = req.headers.authorization;
-        console.log(token)
-        if (!token) return res.status(401).send({ message: "token not provided" });
+        const authHeader = req.headers.authorization;
+        if(!authHeader || !authHeader.startsWith("Bearer")){
+            return res.status(401).send({message:"Token not Provided"})
+        }
+     
+        const token=authHeader.split(" ")[1];
+
+       console.log("extracted Toekn:",token);
+
+       
 
         let decoded=await jwt.verify(token,"This is a secret key");
         // console.log(decoded)
-        
+       
         req.user=decoded
         next()
     } catch (err) {

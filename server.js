@@ -6,10 +6,14 @@ import studentRoute from './routes/studentRoute.js'
 import profileRroutes from './routes/profileRoutes.js'
 import postRoutes from './routes/postRoutes.js'
 import dotenv from 'dotenv'
-dotenv.config()
+import cors from 'cors'
+
+dotenv.config() 
 
 let app=express();//initilizing express
+
 app.use(express.json());//parses incoming request body
+app.use(cors())// cors configuration
 
 mongoose.connect(process.env.MONGODB_URI).
 then(()=>console.log("mongodb connected successfully")).
@@ -20,8 +24,9 @@ app.use('/user',userRoutes)
 app.use('/student',studentRoute)
 app.use('/profile',profileRroutes)
 app.use('/post',postRoutes)
+
+
 app.listen(process.env.PORT,()=>{
     console.log("server running on port 5000")
 })
 
-//mongodb+srv://amitkm997:DORTPNz50hrj3uFV@cluster0.ybxpqio.mongodb.net/
